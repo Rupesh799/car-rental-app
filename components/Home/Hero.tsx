@@ -10,7 +10,7 @@ const Hero = () => {
                 <button className='py-2 px-3 bg-blue-900 rounded-md text-white font-bold hover:scale-105 transition-all'>Explore</button>
         </div>
         <div>
-            <Image src={"/hero.png"} alt='hero' width={600} height={400} className='object-cover '/>
+            <Image src={"/hero.png"} alt='hero' width={600} height={400} className='object-cover hidden md:block'/>
         </div>
     </div>
   )

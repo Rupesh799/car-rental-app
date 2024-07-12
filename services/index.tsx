@@ -8,7 +8,7 @@ export const getCarList=async()=>{
     name
     price
     speed
-    brand
+    carBrand
     carType
     createdAt
     publishedAt
