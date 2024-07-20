@@ -17,18 +17,17 @@ const BookingFormModal = ({car}:any) => {
                         <CarItems car={car}/>
                 </div>
                 <div className='w-full'>
-                        <Form/>
+                        <Form car={car}/>
                 </div>
             </div>
 
 
-    <div className="modal-action ">
+    {/* <div className="modal-action ">
       <form method="dialog" className='flex gap-3'>
-        {/* if there is a button, it will close the modal */}
         <button className="btn">Close</button>
         <button className="btn btn-primary">Save</button>
       </form>
-    </div>
+    </div> */}
   </div>
     
   )

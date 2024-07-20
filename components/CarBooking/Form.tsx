@@ -1,16 +1,63 @@
-import React from "react";
+import { createBooking, getStoreLocations } from "@/services";
+import React, { useEffect, useState } from "react";
 
-const Form = () => {
+const Form = ({car}:any) => {
+  const [location, setLocation] = useState<any>([])
+  const [formValue, setFormValue] = useState({
+    location:'',
+    pickupDate:'',
+    pickupTime:'',
+    dropOffDate:'',
+    dropOffTime:'',
+    contact:'',
+    userName:"",
+    carId: "",
+  })
+  useEffect(() => {
+    getStoreLocation()
+        
+  }, []);
+//when the car is available
+  useEffect(()=>{
+    if(car){
+      setFormValue({
+        ...formValue,
+        carId: car.id
+      })
+    }
+  },[car])
+  const getStoreLocation = async()=>{
+    const res:any = await getStoreLocations();
+    console.log(res);
+    setLocation(res?.storesLocations)
+  }
+
+  const handleChange=(e:any)=>{
+      setFormValue({
+        ...formValue,
+        [e.target.name]:e.target.value
+      })
+  }
+
+  const handleSubmit=async()=>{
+    console.log(formValue);
+    const res = await createBooking(formValue)
+    console.log(res);
+    
+    
+  }
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="w-full">
-        <select className="select select-info w-full max-w-xl">
+        <select className="select select-info w-full max-w-xl" name="location"
+        onChange={handleChange}
+        >
           <option disabled selected>
-            Select language
+            Select location
           </option>
-          <option>English</option>
-          <option>Japanese</option>
-          <option>Italian</option>
+          {location && location.map((loc:any, index:number)=>(
+            <option key={index}>{loc.address}</option>
+          ))}
         </select>
       </div>
       <div className="flex flex-col md:flex-row justify-between gap-2">
@@ -20,6 +67,9 @@ const Form = () => {
             type="date"
             placeholder="Type here"
             className="input input-bordered input-info w-full max-w-xs"
+            name="pickupDate"
+        onChange={handleChange}
+
           />
         </div>
         <div className="w-full">
@@ -29,6 +79,9 @@ const Form = () => {
             type="date"
             placeholder="Type here"
             className="input input-bordered input-info w-full max-w-xs"
+            name="dropOffDate"
+        onChange={handleChange}
+
           />
         </div>
       </div>
@@ -39,6 +92,9 @@ const Form = () => {
             type="time"
             placeholder="Type here"
             className="input input-bordered input-info w-full max-w-xs"
+            name="pickupTime"
+          onChange={handleChange}
+
           />
         </div>
         <div className="w-full">
@@ -48,6 +104,9 @@ const Form = () => {
             type="time"
             placeholder="Type here"
             className="input input-bordered input-info w-full max-w-xs"
+            name="dropOffTime"
+        onChange={handleChange}
+
           />
         </div>
       </div>
@@ -56,7 +115,18 @@ const Form = () => {
             type="text"
             placeholder="Contact number"
             className="input input-bordered input-info w-full max-w-xl"
+            name="contact"
+            onChange={handleChange}
+
           />
+      </div>
+      
+      <div className="modal-action">
+        <form method="dialog" className="flex gap-3">
+      <button className="btn">Close</button>
+      <button className="btn btn-primary" onClick={handleSubmit}>Save</button>
+        </form>
+     
       </div>
     </div>
   );
